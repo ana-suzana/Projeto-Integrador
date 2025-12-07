@@ -1,0 +1,48 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#body {
+    /* As dimensões de 100% (ou 100vh/100vw) só funcionam se os pais (html, body, #root) também tiverem 100% */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    min-height: 100vh;       /* Garante que ocupe a altura total da tela */
+    width: 100vw;            
+    background-color: #FFE9E9; 
+    margin: 0;
+    padding: 0;
+    color: black;
+}
+
+.main {
+    width: 100%;
+    max-width: 380px; 
+    padding: 30px 40px;
+    background-color: white; 
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+.logo {
+    width: 200px;
+    margin: 0 auto
+}
+
+.campos_form {
+    align-items: flex-start;
+}
+
+.input {
+    width: 100%;
+}
+
+.botao_enviar {
+    background-color: #FF0000;
+}
