@@ -1,0 +1,58 @@
+* {
+    font-size: 16px;
+    background-color: #fff;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    border-radius: 20px;
+    margin: 0;
+}
+
+.empresa {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+}
+
+.empresa label {
+    font-size: 1.2em;
+    color: black;
+    width: auto;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    align-items: center;
+    width: auto;
+}
+
+a:hover {
+    color: rgb(129, 0, 0);
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.navegacao {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
