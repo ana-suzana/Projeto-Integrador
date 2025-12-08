@@ -23,7 +23,19 @@ const obterServicoPorId = async (id) => {
 			// trazer histórico de horas desse serviço
 			{ 
                 model: model.Horas,
-                include: ['funcionario', 'maquina'] // Se quiser detalhar
+                required: false, // Traz o serviço mesmo que não tenha horas lançadas
+				include: [
+					// Quem trabalhou nessas horas?
+					{
+						model: model.Funcionario,
+						attributes: ["nome"],
+					},
+					// Qual máquina usou?
+					{
+						model: model.Maquina,
+						attributes: ["modelo"],
+					},
+				], 
             } 
             
 		],
@@ -34,7 +46,7 @@ const obterServicoPorId = async (id) => {
 const obterServicosPorCliente = async (idCliente) => {
 	return await model.Servico.findAll({
 		where: { fk_cliente_idcliente: idCliente },
-		include: [{ model: model.Cliente, as: "cliente" }],
+		include: [{ model: model.Cliente}],
 	});
 };
 

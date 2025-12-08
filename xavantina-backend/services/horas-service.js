@@ -39,12 +39,12 @@ const criaHora = async (req, res) => {
 
         // Cria o objeto respeitando os nomes exatos das colunas no Model (PascalCase/SnakeCase misturado)
 		const novaHora = await horasRepository.criarHora({
-			Data: data,
-			Hr_inicial: hr_inicial,
-			Hr_Final: hr_final,
-			fk_Funcionario_ID: funcionarioId,
-			fk_Servico_ID: servicoId,
-			fk_Maquina_ID: maquinaId,
+			data: data,
+			hr_inicial: hr_inicial,
+			hr_final: hr_final,
+			fk_funcionario_id: funcionarioId,
+			fk_servico_id: servicoId,
+			fk_maquina_id: maquinaId,
 		});
 		res.status(201).json(novaHora);
 	} catch (error) {
@@ -60,12 +60,12 @@ const atualizaHora = async (req, res) => {
 	try {
         // Monta objeto apenas com os campos que foram enviados
 		const dadosParaAtualizar = {};
-		if (data) dadosParaAtualizar.Data = data;
-		if (hr_inicial) dadosParaAtualizar.Hr_inicial = hr_inicial;
-		if (hr_final) dadosParaAtualizar.Hr_Final = hr_final;
-		if (funcionarioId) dadosParaAtualizar.fk_Funcionario_ID = funcionarioId;
-		if (servicoId) dadosParaAtualizar.fk_Servico_ID = servicoId;
-		if (maquinaId) dadosParaAtualizar.fk_Maquina_ID = maquinaId;
+		if (data) dadosParaAtualizar.data = data;
+		if (hr_inicial) dadosParaAtualizar.hr_inicial = hr_inicial;
+		if (hr_final) dadosParaAtualizar.hr_final = hr_final;
+		if (funcionarioId) dadosParaAtualizar.fk_funcionario_id = funcionarioId;
+		if (servicoId) dadosParaAtualizar.fk_servico_id = servicoId;
+		if (maquinaId) dadosParaAtualizar.fk_maquina_id = maquinaId;
 
 		const horaAtualizada = await horasRepository.atualizarHora(
 			id,

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			tableName: "Custos",
+			tableName: "custos",
 			schema: "public",
 			freezeTableName: true,
 			timestamps: false,
@@ -41,13 +41,10 @@ module.exports = (sequelize, DataTypes) => {
 
 	Custos.associate = function (models) {
 		// Custo pertence a uma Máquina
-		if (models.Maquina) {
 			Custos.belongsTo(models.Maquina, {
 				foreignKey: "fk_maquina_id",
 				targetKey: "id",
-				as: "maquina",
 			});
-		}
 	};
 
 	return Custos;

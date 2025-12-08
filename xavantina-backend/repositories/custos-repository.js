@@ -3,13 +3,10 @@ const model = require("../models");
 // Obter todos os custos (com dados da máquina)
 const obterTodosCustos = async () => {
 	const include = [];
-	if (model.Maquina) {
-		include.push({
-			model: model.Maquina,
-			as: "maquina",
-			attributes: ["id", "modelo"],
-		});
-	}
+	include.push({
+		model: model.Maquina,
+		attributes: ["id", "modelo"],
+	});
 
 	return await model.Custos.findAll({
 		include: include,
@@ -25,7 +22,7 @@ const obterCustoPorId = async (id) => {
 // Obter custos por Máquina (Útil para relatórios)
 const obterCustosPorMaquina = async (idMaquina) => {
 	return await model.Custos.findAll({
-		where: { fk_Maquina_ID: idMaquina },
+		where: { fk_maquina_id: idMaquina },
 		order: [["dt_lancamento", "DESC"]],
 	});
 };

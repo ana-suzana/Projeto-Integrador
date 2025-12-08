@@ -6,18 +6,15 @@ const obterTodasHoras = async () => {
 
     include.push({ 
         model: model.Funcionario, 
-        as: "funcionario",
-        attributes: ['id', 'nome'] // Traz apenas o necessário
+        attributes: ['id', 'nome']
     });
 
     include.push({ 
         model: model.Servico, 
-        as: "servico",
         attributes: ['id', 'descricao']
     });
     include.push({ 
         model: model.Maquina, 
-        as: "maquina",
         attributes: ['id', 'modelo'] 
     });
 

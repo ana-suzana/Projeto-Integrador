@@ -35,10 +35,10 @@ const criaCusto = async (req, res) => {
 		}
 
 		const novoCusto = await custosRepository.criarCusto({
-			Descricao: descricao,
-			Categoria: categoria || "Geral",
-			Valor: valor,
-			fk_Maquina_ID: maquinaId,
+			descricao: descricao,
+			categoria: categoria || "Geral",
+			valor: valor,
+			fk_maquina_id: maquinaId,
 			dt_lancamento: dtLancamento,
 		});
 		res.status(201).json(novoCusto);
@@ -54,10 +54,10 @@ const atualizaCusto = async (req, res) => {
 
 	try {
 		const dados = {};
-		if (descricao) dados.Descricao = descricao;
-		if (categoria) dados.Categoria = categoria;
-		if (valor) dados.Valor = valor;
-		if (maquinaId) dados.fk_Maquina_ID = maquinaId;
+		if (descricao) dados.descricao = descricao;
+		if (categoria) dados.categoria = categoria;
+		if (valor) dados.valor = valor;
+		if (maquinaId) dados.fk_maquina_id = maquinaId;
 		if (dtLancamento) dados.dt_lancamento = dtLancamento;
 
 		const custoAtualizado = await custosRepository.atualizarCusto(id, dados);

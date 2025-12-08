@@ -37,21 +37,16 @@ module.exports = (sequelize, DataTypes) => {
 
 	Maquina.associate = function (models) {
 		// Uma máquina tem muitos custos
-		if (models.Custos) {
 			Maquina.hasMany(models.Custos, {
-				foreignKey: "fk_Maquina_id",
+				foreignKey: "fk_maquina_id",
 				sourceKey: "id",
-				as: "custos",
 			});
-		}
 		// Uma máquina tem muitas horas trabalhadas
-		if (models.Horas) {
 			Maquina.hasMany(models.Horas, {
 				foreignKey: "fk_maquina_id",
 				sourceKey: "id",
-				as: "horas",
 			});
-		}
+
 	};
 
 	return Maquina;

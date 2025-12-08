@@ -47,12 +47,10 @@ module.exports = (sequelize, DataTypes) => {
 
 		// Associação com Funcionario
 		// Nota: Certifique-se de que o model 'Funcionario' existe, senão dará erro aqui
-		if (models.Funcionario) {
-			Horas.belongsTo(models.Funcionario, {
-				foreignKey: "fk_funcionario_id",
-				targetKey: "id",
-			});
-		}
+		Horas.belongsTo(models.Funcionario, {
+			foreignKey: "fk_funcionario_id",
+			targetKey: "id",
+		});
 
         Horas.belongsTo(models.Servico, {
             foreignKey: "fk_servico_id",
