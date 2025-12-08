@@ -72,8 +72,8 @@ export default function CustosPage() {
               <td>{item.categoria}</td>
               <td>{item.data}</td>
               <td>
-                <button className="btn-edit" onClick={() => abrirEditar(item)}>Editar</button>
-                <button className="btn-delete" onClick={() => deletar(item)}>Deletar</button>
+                <button className="botao_editar" onClick={() => abrirEditar(item)}>Editar</button>
+                <button className="botao_deletar" onClick={() => deletar(item)}>Deletar</button>
               </td>
             </tr>
           ))}
@@ -82,7 +82,7 @@ export default function CustosPage() {
 
       {/* POPUP */}
       {mostrarPopup && (
-        <div className="popup-fundo">
+        <div className="popup_container">
           <div className="popup">
             <h2>{editarItem ? "Editar Custo" : "Novo Custo"}</h2>
 
@@ -92,8 +92,8 @@ export default function CustosPage() {
             <label>Categoria</label>
             <input type="text" value={form.categoria} onChange={e => setForm({ ...form, categoria: e.target.value })} />
 
-            <label>Tipo</label>
-            <input type="text" value={form.tipo} onChange={e => setForm({ ...form, tipo: e.target.value })} />
+            <label>Máquina</label>
+            <input type="text" value={form.maquina} onChange={e => setForm({ ...form, maquina: e.target.value })} />
 
             <label>Valor (R$)</label>
             <input type="number" value={form.valor} onChange={e => setForm({ ...form, valor: e.target.value })} />
@@ -101,9 +101,9 @@ export default function CustosPage() {
             <label>Descrição</label>
             <input type="text" value={form.descricao} onChange={e => setForm({ ...form, descricao: e.target.value })} />
 
-            <div className="popup-botoes">
-              <button onClick={() => setMostrarPopup(false)}>Cancelar</button>
-              <button onClick={salvar}>Salvar</button>
+            <div className="popup_botoes">
+              <button className="botao_deletar" onClick={() => setMostrarPopup(false)}>Cancelar</button>
+              <button className="botao_editar" onClick={salvar}>Salvar</button>
             </div>
           </div>
         </div>
