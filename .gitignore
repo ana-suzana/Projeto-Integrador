@@ -1,0 +1,75 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# FRONTEND (React)
+node_modules/
+build/
+dist/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# React environment files
+.env
+.env.development
+.env.test
+.env.production
+
+# BACKEND (Node.js / Express)
+
+node_modules/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+debug.log
+pid.lock
+
+# Compiled files
+dist/
+tmp/
+temp/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+
+# EDITOR / IDE
+.vscode/
+.idea/
+*.iml
+
+# SYSTEM FILES
+.DS_Store
+Thumbs.db
+
