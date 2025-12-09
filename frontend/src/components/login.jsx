@@ -2,7 +2,7 @@ import React from "react";
 // import PropTypes from "prop-types";
 import axios from "axios";
 import './login.css';
-import { Alert, Box, Button, Snackbar, Stack, TextField, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import { Alert, Button, Snackbar, Stack, TextField, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 
 export default function Login({ handleLogin }) {
     const [username, setUsername] = React.useState("");
@@ -119,11 +119,7 @@ export default function Login({ handleLogin }) {
                 <Stack direction="row" spacing={3}>
                     <Button
                         variant="contained"
-                        style={{
-                            maxWidth: "100px",
-                            minWidth: "100px",
-                            backgroundColor: "red",
-                        }}
+                        className="botao_enviar"
                         color="primary"
                         onClick={enviaLogin}
                     >

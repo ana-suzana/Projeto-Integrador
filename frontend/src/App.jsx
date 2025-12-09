@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import React from 'react';
-import { BrowserRouter, Routes, Route, } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import './App.css'
 import Login from "./components/login";
-import Dashboard from "./components/dashboard";
+import Servicos from "./components/servicos";
 import Custos from "./components/custos"
-//import Horas from "./components/horas"
+import Horas from "./components/horas"
+import Relatorio from "./components/relatorio"
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,14 +19,14 @@ function App() {
         <Route path="/login" element={<Login handleLogin={() => {}} />} />
         
         {/* Rota 2: Tela protegida */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/servicos" element={<Servicos />} />
         <Route path="/custos" element={<Custos />} />
-        {/*<Route path="/horas" element={<Horas />} />*/}
+        <Route path="/horas" element={<Horas />} />
+        <Route path="/relatorio" element={<Relatorio />} />
 
         {/* 3. Redirecionamento Automático: Qualquer acesso à raiz "/" vai para "/login" */}
         <Route path="/" element={<Navigate to="/login" replace />} />
         
-
         {/* 4. Rota Coringa para qualquer URL inválida */}
         <Route path="*" element={<Navigate to="/login" replace />} />
         

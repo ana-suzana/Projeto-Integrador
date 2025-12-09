@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./custos.css";
+import "./telas.css";
 import Header from "./header";
 import axios from 'axios';
 
-export default function CustosPage() {
+export default function Custos() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [editarItem, setEditarItem] = useState(null);
 
@@ -106,8 +106,8 @@ export default function CustosPage() {
   return (
     <>
     <Header activeTab="Custos" onTabChange={() => {}}/>
-    <div className="custos_container">
-      <div className="custos_header">
+    <div className="tela_container">
+      <div className="tela_header">
         <h1>Custos e Despesas</h1>
         <button className="botao_novo" onClick={abrirNovo}>+ Novo Custo</button>
       </div>

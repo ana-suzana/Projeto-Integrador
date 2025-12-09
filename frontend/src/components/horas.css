@@ -1,0 +1,27 @@
+.caixa_selecao {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  color: black;
+  padding: 15px;
+  margin-bottom: 30px;
+  border-radius: 20px;
+
+}
+
+.caixa_selecao select{
+  width: 40%;
+  color: black;
+  padding: 10px;
+}
+
+.caixa_selecao label{
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.caixa_selecao option{
+  color: black;
+}
