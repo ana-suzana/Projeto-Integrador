@@ -1,22 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./custos.css";
 import Header from "./header";
+import axios from 'axios';
 
 export default function CustosPage() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [editarItem, setEditarItem] = useState(null);
 
-  const [form, setForm] = useState({descricao: "", valor: "", maquina: "", categoria: "", data: ""});
+  const [form, setForm] = useState({descricao: "", valor: "", maquinaId: "", categoria: "", dt_lancamento: ""});
 
-  // DADOS ESTÁTICOS PARA TESTE
+  /* DADOS ESTÁTICOS PARA TESTE
   const [lista, setLista] = useState([
     { id: 1, descricao: "Combustível", valor: -2000, maquina: "escavadeira", categoria: "Operacional", data: "2024-01-15" },
     { id: 2, descricao: "Manutenção", valor: -1500, maquina: "trator", categoria: "Manutenção", data: "2024-01-12" }
-  ]);
+  ]);*/
+
+  const [lista, setLista] = useState([]);
+  const [maquinas, setMaquinas] = useState([]);
+
+
+  async function carregarDados() {
+    try {
+      const response = await axios.get("http://localhost:3002/custos/todos");
+      // O backend retorna { custos: [...] }
+      setLista(response.data.custos);
+    } catch (error) {
+      console.error("Erro ao carregar custos:", error);
+      alert("Erro ao carregar lista de custos.");
+  }}
+
+  async function carregarMaquinas() {
+    try {
+      const response = await axios.get("http://localhost:3002/maquina/todos");
+      setMaquinas(response.data.maquinas);
+    } catch (error) {
+      console.error("Erro ao carregar máquinas:", error);
+    }
+  }
+  
+  useEffect(() => {
+    carregarDados();
+    carregarMaquinas();
+  }, []);
 
   function abrirNovo() {
     setEditarItem(null);
-    setForm({ descricao: "", valor: "", maquina: "", categoria: "", data: "" });
+    setForm({ descricao: "", valor: "", maquinaId: "", categoria: "", data: "" });
     setMostrarPopup(true);
   }
 
@@ -24,23 +53,55 @@ export default function CustosPage() {
     setEditarItem(item);
     setForm(item);
     setMostrarPopup(true);
-  }
-
-  function salvar() {
-    if (editarItem) {
-      // atualizar
-      setLista(lista.map(i => i.id === editarItem.id ? form : i));
-    } else {
-      // criar
-      const novo = { ...form, id: Date.now() };
-      setLista([...lista, novo]);
+  };
+  
+    const salvar = async () => {
+    // Validação simples
+    if ( !form.descricao || !form.valor || !form.maquinaId || !form.dt_lancamento ) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
     }
-    setMostrarPopup(false);
+
+    // Objeto pronto para o Backend (mapeando nomes)
+    const payload = {
+        descricao: form.descricao,
+        valor: parseFloat(form.valor),
+        maquinaId: parseInt(form.maquinaId),
+        categoria: form.categoria,
+        dtLancamento: form.dt_lancamento
+    };
+
+    try {
+        if (editarItem) {
+            // ATUALIZAR (PUT)
+            await axios.put(`http://localhost:3002/custos/atualiza/${editarItem.id}`, payload);
+            alert("Custo atualizado com sucesso!");
+        } else {
+            // CRIAR (POST)
+            await axios.post("http://localhost:3002/custos/", payload);
+            alert("Custo registrado com sucesso!");
+        }
+        
+        setMostrarPopup(false);
+        carregarDados(); // Recarrega a tabela
+    } catch (error) {
+        console.error("Erro ao salvar:", error);
+        alert("Erro ao salvar. Verifique o console.");
+    }
   }
 
-  function deletar(item) {
-    setLista(lista.filter(i => i.id !== item.id));
+  const deletar = async (item) => {
+    if(!confirm(`Deseja excluir o custo "${item.descricao}"?`)) return;
+
+    try {
+        await axios.delete(`http://localhost:3002/custos/delete/${item.id}`);
+        carregarDados();
+    } catch (error) {
+        console.error("Erro ao deletar:", error);
+        alert("Erro ao excluir item.");
+    }
   }
+
 
   return (
     <>
@@ -68,9 +129,9 @@ export default function CustosPage() {
             <tr key={item.id}>
               <td>{item.descricao}</td>
               <td>{item.valor.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</td>
-              <td>{item.maquina}</td>
+              <td>{item.Maquina.modelo }</td>
               <td>{item.categoria}</td>
-              <td>{item.data}</td>
+              <td>{item.dt_lancamento}</td>
               <td>
                 <button className="botao_editar" onClick={() => abrirEditar(item)}>Editar</button>
                 <button className="botao_deletar" onClick={() => deletar(item)}>Deletar</button>
@@ -87,13 +148,25 @@ export default function CustosPage() {
             <h2>{editarItem ? "Editar Custo" : "Novo Custo"}</h2>
 
             <label>Data</label>
-            <input type="date" value={form.data} onChange={e => setForm({ ...form, data: e.target.value })} />
+            <input type="date" value={form.dt_lancamento} onChange={e => setForm({ ...form, dt_lancamento: e.target.value })} />
 
             <label>Categoria</label>
             <input type="text" value={form.categoria} onChange={e => setForm({ ...form, categoria: e.target.value })} />
 
             <label>Máquina</label>
-            <input type="text" value={form.maquina} onChange={e => setForm({ ...form, maquina: e.target.value })} />
+              <select style={{color: 'black'}}
+                value={form.maquinaId || ""}
+                onChange={e => setForm({ ...form, maquinaId: e.target.value })}
+              >
+                <option value="">Selecione uma máquina</option>
+
+                {maquinas.map(m => (
+                  <option key={m.id} value={m.id}>
+                    {m.modelo}
+                  </option>
+                ))}
+              </select>
+
 
             <label>Valor (R$)</label>
             <input type="number" value={form.valor} onChange={e => setForm({ ...form, valor: e.target.value })} />
