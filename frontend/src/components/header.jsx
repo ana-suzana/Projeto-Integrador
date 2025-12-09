@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './header.css'
 
 export default function Header({ activeTab = 'Dashboard', onTabChange = () => {} }){
+    // Definindo o texto (nome) de cada botão da barra de navegação e o caminho de cada um
     const menuItems = [
+      { label: 'Início',  path: '/dashboard'  },
       { label: 'Serviços',  path: '/servicos'  },
       { label: 'Horas',      path: '/horas'     },
       { label: 'Custos',     path: '/custos'    },
@@ -12,26 +13,21 @@ export default function Header({ activeTab = 'Dashboard', onTabChange = () => {}
     ];
     const navigate = useNavigate();
 
+    //Função para sair do sistema - como não foi implementado autenticação, apenas redireciona para a tela de login
     const handleLogout = async () => {
-        try {
-            await axios.post('http://localhost:3002/api/logout'); //colocar rota correta do back
-        } catch (err) {
-            console.warn('Logout backend falhou:', err);
-        } finally {
-            localStorage.removeItem('authToken');
-            delete axios.defaults.headers.common['Authorization'];
-            navigate('./login.jsx');
-        }
+        navigate('./login');
+        window.alert('Logout realizado com sucesso!');
     };
-
+    
+    // Função para navegação entre as telas - chamada ao clicar em um dos botões
     const handleNav = (item) => {
-        onTabChange(item.label);
-        navigate(item.path);
+        onTabChange(item.label); // avisando o componente qual aba foi clicada
+        navigate(item.path); 
     };
 
     return(
-        <header className="header">
-            <div className="empresa">
+        <header className="header"> {/*Container do header */}
+            <div className="empresa"> {/*Informações da empresa */}
                 <img src="/logo_XT2.png" className="logo" alt="XT"/>
                 <label>Xavantina Terraplenagens</label>
             </div>

@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;   /* ✔ manda tudo para a esquerda */
+    width: 100%;
+    color: black;
+    background-color: #F9FAFB;
+    height: 100vh;
+}
+
+.dashboard_header {
+    background-color: #F9FAFB;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.dashboard_header h1 {
+    font-size: 1.6em;
+    background-color: #F9FAFB;
+}
+
+.dashboard_header p {
+    background-color: #F9FAFB;
+    margin: 10px;
+}
+
+.main {
+    background-color: #F9FAFB;
+    max-width: 100%;
+    box-shadow: 0 0 0 0;
+    display: flex;
+    flex-direction: row;          
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    gap: 20px;             
+}
+
+
+.main .cards {
+    width: 220px;
+    height: 200px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    color: rgb(0, 5, 70);
+    border-radius: 30px;
+    margin-bottom: 30px;
+}
+
+.main .cards h2 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+
+.main .cards p {
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+#footer {
+    margin-bottom: 0;
+    border-radius: 20px 0 0 20px;
+}
