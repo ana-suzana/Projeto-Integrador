@@ -105,7 +105,7 @@ export default function Horas() {
       {mostrarPopup && (
         <div className="popup_container">
           <div className="popup">
-            <h2>{editarItem ? "Editar Custo" : "Novo Custo"}</h2>
+            <h2>{editarItem ? "Editar Hora" : "Novo Hora"}</h2>
 
             <label>Data</label>
             <input type="date" value={form.data} onChange={e => setForm({ ...form, data: e.target.value })} />
