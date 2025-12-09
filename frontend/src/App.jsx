@@ -6,7 +6,6 @@ import Login from "./components/login";
 import Servicos from "./components/servicos";
 import Custos from "./components/custos"
 import Horas from "./components/horas"
-import Relatorio from "./components/relatorio"
 
 function App() {
   const [count, setCount] = useState(0);
@@ -22,7 +21,6 @@ function App() {
         <Route path="/servicos" element={<Servicos />} />
         <Route path="/custos" element={<Custos />} />
         <Route path="/horas" element={<Horas />} />
-        <Route path="/relatorio" element={<Relatorio />} />
 
         {/* 3. Redirecionamento Automático: Qualquer acesso à raiz "/" vai para "/login" */}
         <Route path="/" element={<Navigate to="/login" replace />} />
