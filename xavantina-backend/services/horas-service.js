@@ -37,7 +37,6 @@ const criaHora = async (req, res) => {
 				.json({ message: "Data, horários, funcionário, serviço e máquina são obrigatórios." });
 		}
 
-        // Cria o objeto respeitando os nomes exatos das colunas no Model (PascalCase/SnakeCase misturado)
 		const novaHora = await horasRepository.criarHora({
 			data: data,
 			hr_inicial: hr_inicial,

@@ -1,29 +1,30 @@
 //Tela com o CRUD de serviços
 import React, { useState, useEffect } from "react";
 import "./telas.css";
-import Header from "./header";
+import Header from "./header.jsx";
 import axios from 'axios';
 
 export default function Servicos() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [editarItem, setEditarItem] = useState(null);
-  const [form, setForm] = useState({cliente: "", descricao: "", valor_hora: "", status: "", dt_inicio: "", dt_final: ""});
+  const [form, setForm] = useState({IdCliente: "", descricao: "", valor_hora: "", status: "", dt_inicio: "", dt_final: ""});
   const [lista, setLista] = useState([]);
+  const [clientes, setClientes] = useState([]);
 
   async function carregarDados() {
     try {
-      const response = await axios.get("http://localhost:3002/custos/todos");
-      // O backend retorna { custos: [...] }
-      setLista(response.dt_inicio.custos);
+      const response = await axios.get("http://localhost:3002/servico/todos");
+      setLista(response.data.servicos);
+      console.log(response.data.servicos);
     } catch (error) {
-      console.error("Erro ao carregar custos:", error);
-      alert("Erro ao carregar lista de custos.");
+      console.error("Erro ao carregar servico:", error);
+      alert("Erro ao carregar lista de servico.");
   }}
 
-  async function carregarMaquinas() {
+  async function carregarClientes() {
     try {
-      const response = await axios.get("http://localhost:3002/maquina/todos");
-      setMaquinas(response.dt_inicio.maquinas);
+      const response = await axios.get("http://localhost:3002/cliente/todos");
+      setClientes(response.data.clientes);
     } catch (error) {
       console.error("Erro ao carregar máquinas:", error);
     }
@@ -31,24 +32,30 @@ export default function Servicos() {
   
   useEffect(() => {
     carregarDados();
-    carregarMaquinas();
+    carregarClientes();
   }, []);
 
   function abrirNovo() {
     setEditarItem(null);
-    setForm({cliente: "", descricao: "", valor_hora: "", status: "", dt_inicio: "", dt_final: ""});
+    setForm({IdCliente: "", descricao: "", valor_hora: "", status: "", dt_inicio: "", dt_final: ""});
     setMostrarPopup(true);
   }
 
   function abrirEditar(item) {
+    console.log(item);
     setEditarItem(item);
-    setForm(item);
+    setForm({IdCliente: item.fk_cliente_idcliente, 
+      descricao: item.descricao,
+      valor_hora: item.valor_hora,
+      status: item.status,
+      dt_inicio: item.dt_inicio,
+      dt_final: item.dt_final});
     setMostrarPopup(true);
   };
   
     const salvar = async () => {
     // Validação simples
-    if ( !form.descricao || !form.valor_hora || !form.maquinaId || !form.dt_lancamento ) {
+    if ( !form.descricao || !form.valor_hora || !form.IdCliente || !form.dt_inicio || !form.dt_final ) {
         alert("Preencha todos os campos obrigatórios!");
         return;
     }
@@ -56,20 +63,23 @@ export default function Servicos() {
     // Objeto pronto para o Backend (mapeando nomes)
     const payload = {
         descricao: form.descricao,
-        valor_hora: parseFloat(form.valor_hora),
-        maquinaId: parseInt(form.maquinaId),
-        categoria: form.categoria,
-        dtLancamento: form.dt_lancamento
+        valorHora: parseFloat(form.valor_hora),
+        clienteId: parseInt(form.IdCliente),
+        status: form.status,
+        dtInicio: form.dt_inicio, 
+        dtFinal: form.dt_final
     };
+
+    console.log("Enviando Payload:", payload);
 
     try {
         if (editarItem) {
             // ATUALIZAR (PUT)
-            await axios.put(`http://localhost:3002/servicos/atualiza/${editarItem.id}`, payload);
+            await axios.put(`http://localhost:3002/servico/atualiza/${editarItem.id}`, payload);
             alert("Serviço atualizado com sucesso!");
         } else {
             // CRIAR (POST)
-            await axios.post("http://localhost:3002/servicos/", payload);
+            await axios.post("http://localhost:3002/servico/", payload);
             alert("Serviço registrado com sucesso!");
         }
         
@@ -85,7 +95,7 @@ export default function Servicos() {
     if(!confirm(`Deseja excluir o serviço "${item.descricao}"?`)) return;
 
     try {
-        await axios.delete(`http://localhost:3002/servicos/delete/${item.id}`);
+        await axios.delete(`http://localhost:3002/servico/delete/${item.id}`);
         carregarDados();
     } catch (error) {
         console.error("Erro ao deletar:", error);
@@ -118,7 +128,7 @@ export default function Servicos() {
         <tbody>
           {lista.map(item => (
             <tr key={item.id}>
-              <td>{item.cliente}</td>
+              <td>{item.Cliente.nome}</td>
               <td>{item.descricao}</td>
               <td>{item.valor_hora.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</td>
               <td>{item.status}</td>
@@ -148,16 +158,16 @@ export default function Servicos() {
             <label>Status</label>
             <input type="text" value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} />
 
-            <label>Máquina</label>
+            <label>Cliente</label>
               <select style={{color: 'black'}}
-                value={form.maquinaId || ""}
-                onChange={e => setForm({ ...form, maquinaId: e.target.value })}
+                value={form.IdCliente}
+                onChange={e => setForm({ ...form, IdCliente: e.target.value })}
               >
-                <option value="">Selecione uma máquina</option>
+                <option value="">Selecione um cliente</option>
 
-                {maquinas.map(m => (
-                  <option key={m.id} value={m.id}>
-                    {m.modelo}
+                {clientes.map(m => (
+                  <option key={m.idcliente} value={m.idcliente}>
+                    {m.nome}
                   </option>
                 ))}
               </select>

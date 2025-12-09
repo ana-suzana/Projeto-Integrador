@@ -20,17 +20,17 @@ const obterServicoPorId = async (id) => {
 			{
 				model: model.Cliente,
 			},
-			// trazer histórico de horas desse serviço
+			//histórico de horas desse serviço
 			{ 
                 model: model.Horas,
-                required: false, // Traz o serviço mesmo que não tenha horas lançadas
+                required: false, //traz serviço mesmo que não tenha horas lançadas
 				include: [
 					// Quem trabalhou nessas horas?
 					{
 						model: model.Funcionario,
 						attributes: ["nome"],
 					},
-					// Qual máquina usou?
+					//qual máquina usou?
 					{
 						model: model.Maquina,
 						attributes: ["modelo"],

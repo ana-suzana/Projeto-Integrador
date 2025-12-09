@@ -5,7 +5,7 @@ import './header.css'
 
 export default function Header({ activeTab = 'Dashboard', onTabChange = () => {} }){
     const menuItems = [
-      { label: 'Serviços',  path: '/dashboard'  },
+      { label: 'Serviços',  path: '/servicos'  },
       { label: 'Horas',      path: '/horas'     },
       { label: 'Custos',     path: '/custos'    },
       { label: 'Relatórios', path: '/relatorios'}

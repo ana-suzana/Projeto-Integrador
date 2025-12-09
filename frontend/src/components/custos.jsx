@@ -51,7 +51,11 @@ export default function Custos() {
 
   function abrirEditar(item) {
     setEditarItem(item);
-    setForm(item);
+    setForm({descricao: item.descricao,
+    valor: item.valor,
+    categoria: item.categoria,
+    dt_lancamento: item.dt_lancamento,
+    maquinaId: item.fk_maquina_id });
     setMostrarPopup(true);
   };
   

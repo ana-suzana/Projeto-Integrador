@@ -1,52 +1,149 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import "./telas.css";
-import "./horas.css";
-import Header from "./header";
+import "./telas.css"; //estilizando
+import "./horas.css"; //estilizando
+import Header from "./header"; //cabeçalho
+import axios from 'axios'
 
 export default function Horas() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [editarItem, setEditarItem] = useState(null);
-  const [form, setForm] = useState({maquina: "", servico: "", hora_inicial: "", hora_final: "", total: "", data: ""});
-  const [maquinaFiltro, setMaquinaFiltro] = useState(""); // estado para o filtro de máquina
+  const [form, setForm] = useState({funcionarioId: "", 
+      servicoId: "", 
+      maquinaId: "", 
+      data: "", 
+      hrInicial: "", 
+      hrFinal: ""});
 
-  // DADOS ESTÁTICOS PARA TESTE
-  const [lista, setLista] = useState([
-    { id: 1, maquina: "Escavadeira", servico: "Terraplanagem lote 10", hora_inicial: 100, hora_final: 150, total: (100-150), data: "2024-01-15" },
-    { id: 2, maquina: "Trator", servico: "Terraplanagem lote 20", hora_inicial: 380, hora_final: 400, total: (400-380), data: "2024-01-20" }
-  ]);
+  const [lista, setLista] = useState([]);
 
-   // máquinas únicas da lista (para popular o Select)
-  const maquinas = [...new Set(lista.map(item => item.maquina))];
+  const [funcionarios, setFuncionarios] = useState([]);
+  const [servicos, setServicos] = useState([]);
+  const [maquinas, setMaquinas] = useState([]);
+  const [filtroMaquina, setFiltroMaquina] = useState("");// estado para o filtro de máquina
 
-  // filtrar lista baseado na máquina selecionada
-  const listaFiltrada = maquinaFiltro === "" ? lista : lista.filter(item => item.maquina === maquinaFiltro);
+  async function carregarDados() {
+    try {
+      const response = await axios.get("http://localhost:3002/horas/todos");
+      setLista(response.data.horas);
+      console.log(response.data.horas);
+    } catch (error) {
+      console.error("Erro ao carregar servico:", error);
+      alert("Erro ao carregar lista de servico.");
+  }}
+
+    // Carrega as listas auxiliares para os selects
+  async function carregarAuxiliares() {
+    try {
+      const resFunc = await axios.get("http://localhost:3002/funcionario/todos");
+      setFuncionarios(resFunc.data.funcionarios);
+
+      const resServ = await axios.get("http://localhost:3002/servico/todos");
+      setServicos(resServ.data.servicos);
+
+      const resMaq = await axios.get("http://localhost:3002/maquina/todos");
+      setMaquinas(resMaq.data.maquinas);
+    } catch (error) {
+      console.error("Erro ao carregar dados auxiliares:", error);
+    }
+  }
+
+  useEffect(() => {
+    carregarDados();
+    carregarAuxiliares();
+  }, []);
+
+  // // DADOS ESTÁTICOS PARA TESTE
+  // const [lista, setLista] = useState([
+  //   { id: 1, maquina: "Escavadeira", servico: "Terraplanagem lote 10", hora_inicial: 100, hora_final: 150, total: (100-150), data: "2024-01-15" },
+  //   { id: 2, maquina: "Trator", servico: "Terraplanagem lote 20", hora_inicial: 380, hora_final: 400, total: (400-380), data: "2024-01-20" }
+  // ]);
 
   function abrirNovo() {
     setEditarItem(null);
-    setForm({ maquina: "", servico: "", hora_inicial: "", hora_final: "", data: "" });
+    setForm({ funcionarioId: "",
+      servicoId: "",
+      maquinaId: "",
+      data: "",
+      hrInicial: "",
+      hrFinal: ""});
     setMostrarPopup(true);
   }
 
   function abrirEditar(item) {
     setEditarItem(item);
-    setForm(item);
+    setForm({funcionarioId: item.fk_funcionario_id,
+    servicoId: item.fk_servico_id,
+    maquinaId: item.fk_maquina_id,
+    data: item.data,
+    hrInicial: item.hr_inicial,
+    hrFinal: item.hr_final});
+
+    console.log("ITEM EDITAR:", item);
+console.log("hr_inicial:", item.hr_inicial);
+console.log("hr_final:", item.hr_final);
     setMostrarPopup(true);
   }
 
-  function salvar() {
-    if (editarItem) {
-      setLista(lista.map(i => i.id === editarItem.id ? form : i));
-    } else {
-      const novo = { ...form, id: Date.now() };
-      setLista([...lista, novo]);
+  const salvar = async () => {
+    // Validação simples
+    if ( !form.funcionarioId || !form.servicoId || !form.maquinaId || !form.data || !form.hrInicial || !form.hrFinal ) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
     }
-    setMostrarPopup(false);
+
+    // Objeto pronto para o Backend 
+    const payload = {
+        funcionarioId: parseInt(form.funcionarioId),
+        servicoId: parseInt(form.servicoId),
+        maquinaId: parseInt(form.maquinaId),
+        data: form.data,
+        hr_inicial: form.hrInicial, 
+        hr_final: form.hrFinal
+    };
+
+    console.log("Enviando Payload:", payload);
+
+    try {
+        if (editarItem) {
+            // ATUALIZAR (PUT)
+            await axios.put(`http://localhost:3002/horas/atualiza/${editarItem.id}`, payload);
+            alert("horas atualizado com sucesso!");
+        } else {
+            // CRIAR (POST)
+            await axios.post("http://localhost:3002/horas/", payload);
+            alert("horas registrado com sucesso!");
+        }
+        
+        setMostrarPopup(false);
+        carregarDados(); // Recarrega a tabela
+    } catch (error) {
+        console.error("Erro ao salvar:", error);
+        alert("Erro ao salvar. Verifique o console.");
+    }
   }
 
-  function deletar(item) {
-    setLista(lista.filter(i => i.id !== item.id));
+  const deletar = async (item) => {
+    if(!confirm(`Deseja excluir este registro?`)) return;
+
+    try {
+        await axios.delete(`http://localhost:3002/horas/delete/${item.id}`);
+        carregarDados();
+    } catch (error) {
+        console.error("Erro ao deletar:", error);
+        alert("Erro ao excluir item.");
+    }
   }
+
+  //LÓGICA DE FILTRO MAQUINAS
+  const listaFiltrada = lista.filter(item => {
+      // Se não tiver filtro, retorna tudo
+      if (!filtroMaquina) return true;
+      
+      // Verifica se o ID da máquina no registro bate com o filtro
+      const idMaqRegistro = item.fk_maquina_id;
+      return idMaqRegistro == filtroMaquina; 
+  });
 
   return (
     <>
@@ -60,12 +157,12 @@ export default function Horas() {
         <div className="caixa_selecao">
             <label>Filtrar por máquina</label>
             <select
-              value={maquinaFiltro}
-              onChange={e => setMaquinaFiltro(e.target.value)}
+              value={filtroMaquina}
+              onChange={e => setFiltroMaquina(e.target.value)}
             >
               <option value="">Todas as Máquinas</option>
-              {maquinas.map(maquina => (
-                <option key={maquina} value={maquina}>{maquina}</option>
+              {maquinas.map(m => (
+                <option key={m.id} value={m.id}>{m.modelo}</option>
               ))}
             </select>
         </div>
@@ -75,10 +172,10 @@ export default function Horas() {
           <tr>
             <th>Máquina</th>
             <th>Serviço</th>
+            <th>Funcionário</th>
+            <th>Data</th>
             <th>Hora Inicial</th>
             <th>Hora Final</th>
-            <th>Total</th>
-            <th>Data</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -86,12 +183,13 @@ export default function Horas() {
         <tbody>
           {listaFiltrada.map(item => (
             <tr key={item.id}>
-              <td>{item.maquina}</td>
-              <td>{item.servico}</td>
-              <td>{item.hora_inicial}</td>
-              <td>{item.hora_final}</td>
-              <td>{item.total}</td>
+              <td>{item.Maquina.modelo}</td>
+              <td>{item.Servico.descricao}</td>
+              <td>{item.Funcionario.nome}</td>
               <td>{item.data}</td>
+              <td>{item.hr_inicial}</td>
+              <td>{item.hr_final}</td>
+
               <td>
                 <button className="botao_editar" onClick={() => abrirEditar(item)}>Editar</button>
                 <button className="botao_deletar" onClick={() => deletar(item)}>Deletar</button>
@@ -111,16 +209,42 @@ export default function Horas() {
             <input type="date" value={form.data} onChange={e => setForm({ ...form, data: e.target.value })} />
 
             <label>Servico</label>
-            <input type="text" value={form.servico} onChange={e => setForm({ ...form, servico: e.target.value })} />
+            <select 
+                style={{color: 'black', padding: 5}}
+                value={form.servicoId}
+                onChange={e => setForm({ ...form, servicoId: e.target.value })}
+            >
+                <option value="">Selecione...</option>
+                {servicos.map(s => (
+                    <option key={s.id} value={s.id}>{s.descricao}</option>
+                ))}
+            </select>
 
             <label>Máquina</label>
-            <input type="text" value={form.maquina} onChange={e => setForm({ ...form, maquina: e.target.value })} />
+            <select 
+                style={{color: 'black', padding: 5}}
+                value={form.maquinaId}
+                onChange={e => setForm({ ...form, maquinaId: e.target.value })}
+            >
+                <option value="">Selecione...</option>
+                {maquinas.map(m => (
+                    <option key={m.id} value={m.id}>{m.modelo}</option>
+                ))}
+            </select>
+
+            <label>Funcionário</label>
+            <select style={{color: 'black', padding: 5}} value={form.funcionarioId} onChange={e => setForm({ ...form, funcionarioId: e.target.value })} >
+              <option value="">Selecione...</option>
+                {funcionarios.map(f => (
+                    <option key={f.id} value={f.id}>{f.nome}</option>
+                ))}
+            </select>
 
             <label>Hora Inicial</label>
-            <input type="number" value={form.hora_inicial} onChange={e => setForm({ ...form, hora_inicial: e.target.value })} />
+            <input type="time" value={form.hrInicial} onChange={e => setForm({ ...form, hrInicial: e.target.value })} />
 
             <label>Hora Final</label>
-            <input type="number" value={form.hora_final} onChange={e => setForm({ ...form, hora_final: e.target.value })} />
+            <input type="time" value={form.hrFinal} onChange={e => setForm({ ...form, hrFinal: e.target.value })} />
 
             <div className="popup_botoes">
               <button className="botao_deletar" onClick={() => setMostrarPopup(false)}>Cancelar</button>
