@@ -1,11 +1,13 @@
 # Xavantina Terraplanagens - Sistema de Gestão
 
-Sistema web desenvolvido como Projeto Integrador para a disciplina de Desenvolvimento Web. O objetivo é gerenciar os processos internos da empresa Xavantina Terraplanagens, permitindo o controle de serviços, apontamento de horas de operadores e gestão financeira de máquinas.
+Sistema web desenvolvido como Projeto Integrador para a disciplina de Desenvolvimento Web, em conjunto com as disciplinas de Engenharia de Software 1 e Banco de Dados 1. O objetivo do sistema é gerenciar os processos internos da empresa Xavantina Terraplanagens, permitindo o controle de serviços, apontamento de horas de operadores e gestão financeira de máquinas.
 
 ## Módulos do Sistema
 - Gestão de Serviços: Cadastro e acompanhamento de obras e serviços prestados a clientes.
 - Apontamento de Horas: Registro diário de horas trabalhadas por operadores em cada máquina/serviço.
 - Controle de Custos: Lançamento de despesas (manutenção, combustível) vinculadas a máquinas específicas.
+- Dashboard: Pré visualização dos serviços e das horas trabalhadas.
+- Relatório: Visualização de receita, despesa, lucro e custo da hora em um determinado período de tempo.
 
 ## Tecnologias Utilizadas
 
@@ -31,22 +33,17 @@ Sistema web desenvolvido como Projeto Integrador para a disciplina de Desenvolvi
 - Clone o repositório;
 - Configurar o Banco de Dados:
 - Crie um banco de dados no PostgreSQL chamado progII (ou ajuste no arquivo localConnection.js).
-- Execute o script SQL fornecido na pasta docs/database.sql para criar as tabelas.
-- Executar o Backend:
+- Execute o script SQL fornecido na pasta database/database.sql para criar as tabelas.
 
-cd xavantina-backend
-npm install
-node server.js
+#### Executar o Backend:
 
-O servidor rodará na porta 3002.
+cd xavantina-backend  |  pm install express cors pg  |  npm install  |  npm install -g nodemon  |  nodemon server.js
 
-- Executar o Frontend (com instalações necessárias):
+- O servidor rodará na porta 3002.
 
-cd frontend
-npm install axios
-npm install react-router-dom 
-npm install @mui/material @emotion/react @emotion/styled
-npm run dev
+#### Executar o Frontend (com instalações necessárias):
+
+cd frontend  |  npm install axios  |  npm install react-router-dom  | npm install @mui/material @emotion/react @emotion/styled  |  npm run dev
 
 Caso já tenha as instalações, basta executar npm run dev dentro da pasta frontend.
 
