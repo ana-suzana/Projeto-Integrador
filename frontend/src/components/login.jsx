@@ -1,5 +1,4 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import axios from "axios";
 import './login.css';
 import { Alert, Button, Snackbar, Stack, TextField, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
@@ -13,7 +12,6 @@ export default function Login({ handleLogin }) {
     const [messageText, setMessageText] = React.useState("");
     const [messageSeverity, setMessageSeverity] = React.useState("success");
 
-    // const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const handleTipoUsuarioChange = (event) => {
         setTipoUsuario(event.target.value);
     };
@@ -71,6 +69,7 @@ export default function Login({ handleLogin }) {
                             required
                             id="username-input"
                             label="Digite seu CPF ou CNPJ: "
+                            
                             size="small"
                             value={username}
                             onChange={(event) => {
@@ -98,21 +97,21 @@ export default function Login({ handleLogin }) {
                     <Stack className="campos_form">
                         <label><b>Tipo de Usuário:</b></label>
                         <FormControl fullWidth size="small" required>
-                            <InputLabel id="tipo-usuario-label">Tipo de Usuário</InputLabel>
-                            <Select
+                            
+                            <select
                                 labelId="tipo-usuario-label"
                                 id="tipo-usuario-select"
                                 value={tipoUsuario} // Usa o estado
                                 label="Tipo de Usuário"
                                 onChange={handleTipoUsuarioChange} // Usa a função de mudança
                             >
-                                <MenuItem value="">
+                                <option value="">
                                     <em>Selecione...</em>
-                                </MenuItem>
-                                <MenuItem value={'administrador'}>Administrador</MenuItem>
-                                <MenuItem value={'cliente'}>Cliente </MenuItem>
-                                <MenuItem value={'operador'}>Operador</MenuItem>
-                            </Select>
+                                </option>
+                                <option value={'administrador'}>Administrador</option>
+                                <option value={'cliente'}>Cliente </option>
+                                <option value={'operador'}>Operador</option>
+                            </select>
                         </FormControl>
                     </Stack>
                 </Stack>
@@ -142,7 +141,3 @@ export default function Login({ handleLogin }) {
         </div>
     );
 }
-
-// Login.propTypes = {
-// 	setToken: PropTypes.func.isRequired,
-// };

@@ -1,5 +1,5 @@
 html, body, #root {
-    height: 100%;
+    height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -16,33 +16,44 @@ html, body, #root {
     color: black;
 }
 
-.main {
-    width: 100%;
-    max-width: 380px; 
+#body .main {
+    width: 400px;
     padding: 30px 40px;
-    background-color: white; 
+    background-color: #FFF; 
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 20px; 
 }
 
-.logo {
+#body .main .logo {
     width: 200px;
     margin: 0 auto
 }
 
-.campos_form {
+#body .main .campos_form {
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
 }
 
-.input {
+#body .main .campos_form select {
+    color: #616161;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+option {
     width: 100%;
+    color: #616161;
 }
 
-.botao_enviar {
+#body .main .botao_enviar {
     max-width: 100px;
     min-width: 100px;
+    color: black;
     background-color: red;
 }

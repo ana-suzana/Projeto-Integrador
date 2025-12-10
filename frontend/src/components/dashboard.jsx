@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Header from "./header";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import axios from "axios";
+import Header from "./header";
+import './telas.css';
 import './dashboard.css';
 // import axios from "axios";
 
@@ -30,7 +32,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <Header activeTab="Dashboard" onTabChange={() => {}} />
+            <Header activeTab="Início" onTabChange={() => {}} />
             <div className="container">
                 <section className="dashboard_header">
                     <h1>Tela de Início</h1>

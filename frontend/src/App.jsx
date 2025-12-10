@@ -27,7 +27,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
         {/* Definindo as rotas e qual componente será ativado */}
         <Route path="/login" element={<Login handleLogin={() => {}} />} />
 

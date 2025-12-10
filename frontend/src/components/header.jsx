@@ -9,7 +9,7 @@ export default function Header({ activeTab = 'Dashboard', onTabChange = () => {}
       { label: 'Serviços',  path: '/servicos'  },
       { label: 'Horas',      path: '/horas'     },
       { label: 'Custos',     path: '/custos'    },
-      { label: 'Relatórios', path: '/relatorios'}
+      { label: 'Relatórios', path: '/relatorio'}
     ];
     const navigate = useNavigate();
 
@@ -32,6 +32,7 @@ export default function Header({ activeTab = 'Dashboard', onTabChange = () => {}
                 <label>Xavantina Terraplenagens</label>
             </div>
 
+            {/* Barra de navegação */}
             <nav className="navegacao" role="navigation" aria-label="Principal">
                 {menuItems.map((item) => (
                     <button

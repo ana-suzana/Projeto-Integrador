@@ -16,7 +16,6 @@ export default function Horas() {
       hrFinal: ""});
 
   const [lista, setLista] = useState([]);
-
   const [funcionarios, setFuncionarios] = useState([]);
   const [servicos, setServicos] = useState([]);
   const [maquinas, setMaquinas] = useState([]);
@@ -59,6 +58,7 @@ export default function Horas() {
   //   { id: 2, maquina: "Trator", servico: "Terraplanagem lote 20", hora_inicial: 380, hora_final: 400, total: (400-380), data: "2024-01-20" }
   // ]);
 
+  // Função para abrir o popup de novo registro
   function abrirNovo() {
     setEditarItem(null);
     setForm({ funcionarioId: "",
@@ -70,6 +70,7 @@ export default function Horas() {
     setMostrarPopup(true);
   }
 
+  // Função para abrir o popup de edição com os dados preenchidos
   function abrirEditar(item) {
     setEditarItem(item);
     setForm({funcionarioId: item.fk_funcionario_id,
@@ -80,8 +81,8 @@ export default function Horas() {
     hrFinal: item.hr_final});
 
     console.log("ITEM EDITAR:", item);
-console.log("hr_inicial:", item.hr_inicial);
-console.log("hr_final:", item.hr_final);
+    console.log("hr_inicial:", item.hr_inicial);
+    console.log("hr_final:", item.hr_final);
     setMostrarPopup(true);
   }
 

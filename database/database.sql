@@ -81,8 +81,8 @@ ALTER TABLE Horas ADD CONSTRAINT FK_Horas_Maquina
     REFERENCES Maquina (ID)
     ON DELETE RESTRICT;
 
-—-----------------------------------------------------
-/*INSERTIS*/
+-----------------------------------------------------
+/*INSERTS*/
 
 -- Inserindo Clientes
 INSERT INTO Cliente (Nome, CPF_CNPJ, Cliente_TIPO, senha) VALUES
